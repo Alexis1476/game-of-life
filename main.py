@@ -1,4 +1,4 @@
-from MyCell import *
+from cell import *
 
 
 def main():
