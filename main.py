@@ -1,5 +1,6 @@
 import pygame
 import grid
+import numpy as np
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -14,10 +15,12 @@ def main():
     pygame.init()  # Initialisation de pygame
     window = pygame.display.set_mode((400, 400))
     window.fill(WHITE)
+    game_grid = grid.Grid(WIDTH, HEIGHT, SCALE, OFSSET)  # Création de la grille
     while is_running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 is_running = False
+        game_grid.draw(window)
         pygame.display.flip()
     pygame.quit()
 
