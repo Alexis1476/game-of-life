@@ -1,9 +1,12 @@
 import pygame
+import grid
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 WIDTH, HEIGHT = 700, 500
 SIZE = (WIDTH, HEIGHT)
+OFSSET = 1
+SCALE = 20
 
 
 def main():
