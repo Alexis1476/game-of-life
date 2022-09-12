@@ -37,19 +37,17 @@ class Grid {
             }
         }
     }
+    checkNeighbourhood() {
+        // TODO : Mettre en place les règles du jeu
+
+    }
     draw() {
         this.cells.forEach(cell => {
             cell.draw();
-            console.log(cell.x);
-
         });
-        console.log(this.cells.length);
     }
 }
 
 let canvas = document.getElementById('canvas');
 let grid = new Grid(canvas, 500, 500);
 grid.draw();
-
-// ctx.fillRect(10, 10, 10, 10);
-// ctx.clearRect(10, 10, 10, 10);
