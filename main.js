@@ -5,9 +5,13 @@ class Cell {
         this.ctx = context;
         this.x = x;
         this.y = y;
+        // TODO : Faire méthode pour choisir le mode aléatoire
+        this.isAlive = Math.random() > 0.5;
     }
     draw() {
-        this.ctx.fillStyle = '#020';
+        let color;
+        color = this.isAlive ? '#000' : '#FFF';
+        this.ctx.fillStyle = color;
         this.ctx.fillRect(this.x * Cell.width, this.y * Cell.height, Cell.width, Cell.height);
     }
 }
