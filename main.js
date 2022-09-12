@@ -1,32 +1,49 @@
-class Cell{
+class Cell {
     static width = 10;
     static height = 10;
-    constructor(context,x,y){
+    constructor(context, x, y) {
         this.ctx = context;
         this.x = x;
         this.y = y;
     }
     draw() {
-        this.ctx.fillStyle = '#FFF';
-        this.context.fillRect(this.x * Cell.width, this.y * Cell.height,x,y);
+        this.ctx.fillStyle = '#020';
+        this.ctx.fillRect(this.x * Cell.width, this.y * Cell.height, Cell.width, Cell.height);
     }
 }
 
-class Grid{
-    constructor(canvas, width, height){
+class Grid {
+    constructor(canvas, width, height) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         canvas.width = width;
         canvas.height = height;
         canvas.style.border = 'solid 1px black'
+        //
+        this.cells = [];
+        let columns = width / Cell.width;
+        let rows = height / Cell.height;
+
+        for (let y = 0; y < rows; y++) {
+            for (let x = 0; x < columns; x++) {
+                this.cells.push(new Cell(this.ctx, x,y));
+            }
+            
+        }
     }
-    draw(){
-        
+    draw() {
+        this.cells.forEach(cell => {
+            cell.draw();
+            console.log(cell.x);
+            
+        });
+        console.log(this.cells.length);
     }
 }
 
 let canvas = document.getElementById('canvas');
-let game = new Grid(canvas, 500, 500);
+let grid = new Grid(canvas, 500, 500);
+grid.draw();
 
 // ctx.fillRect(10, 10, 10, 10);
 // ctx.clearRect(10, 10, 10, 10);
