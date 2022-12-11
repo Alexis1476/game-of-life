@@ -54,7 +54,7 @@ class Grid {
         }
     }
 
-    neighbors(cellY, cellX) {
+    neighbors(cell) {
         let neighborsAlive = 0;
 
         const isInside = (value) => {
@@ -71,16 +71,16 @@ class Grid {
         }
 
         // Top
-        neighbor(cellY - 1, cellX - 1);// Left
-        neighbor(cellY - 1, cellX);// Middlee
-        neighbor(cellY - 1, cellX + 1);// Right
+        neighbor(cell.y - 1, cell.x - 1);// Left
+        neighbor(cell.y - 1, cell.x);// Middlee
+        neighbor(cell.y - 1, cell.x + 1);// Right
         // Middle
-        neighbor(cellY, cellX - 1);// Left
-        neighbor(cellY, cellX + 1);// Right
+        neighbor(cell.y, cell.x - 1);// Left
+        neighbor(cell.y, cell.x + 1);// Right
         // Bottom
-        neighbor(cellY + 1, cellX - 1);// Left
-        neighbor(cellY + 1, cellX);// Middlee
-        neighbor(cellY + 1, cellX + 1);// Right
+        neighbor(cell.y + 1, cell.x - 1);// Left
+        neighbor(cell.y + 1, cell.x);// Middlee
+        neighbor(cell.y + 1, cell.x + 1);// Right
 
         return neighborsAlive;
     }
@@ -90,13 +90,25 @@ class Grid {
     }
 
     play() {
-        this.cells.map(row => row.forEach(cell => {
-            cell.stillAlive(this.neighbors(cell.y, cell.x));
-        }));
+        let nextGen = this.cells.slice();
+        console.log(nextGen[0][0] === this.cells[0][0]); // The same cells
+        for (let i = 0; i < this.rows; i++) {
+            for (let j = 0; j < this.columns; j++) {
+                nextGen[i][j].stillAlive(this.neighbors(this.cells[i][j]));
+            }
+        }
+        this.cells = [...nextGen];
         this.draw();
     }
 }
 
 let canvas = document.getElementById('canvas');
-let grid = new Grid(canvas, 500, 500);
+let grid = new Grid(canvas, 100, 100);
 grid.draw();
+grid.play();
+
+function play() {
+    grid.play();
+}
+
+//setInterval(play, 200)
