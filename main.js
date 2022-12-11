@@ -40,8 +40,22 @@ class Grid {
         }
     }
 
-    checkNeighbourhood() {
-        // TODO : Mettre en place les règles du jeu
+    neighbors(cellX, cellY) {
+        let neighbours = [];
+
+        // Top
+        neighbours.push(this.cells[cellY - 1][cellX - 1]); // Left
+        neighbours.push(this.cells[cellY - 1][cellX]); // Middlee
+        neighbours.push(this.cells[cellY - 1][cellX + 1]); // Right
+        // Middle
+        neighbours.push(this.cells[cellY][cellX - 1]); // Left
+        neighbours.push(this.cells[cellY][cellX + 1]); // Right
+        // Bottom
+        neighbours.push(this.cells[cellY + 1][cellX - 1]); // Left
+        neighbours.push(this.cells[cellY + 1][cellX]); // Middlee
+        neighbours.push(this.cells[cellY + 1][cellX + 1]); // Right
+
+        return neighbours;
     }
 
     draw() {
