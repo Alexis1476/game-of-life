@@ -2,10 +2,10 @@ class Cell {
     static width = 10;
     static height = 10;
 
-    constructor(context, x, y) {
+    constructor(context, y, x) {
         this.ctx = context;
-        this.x = x;
         this.y = y;
+        this.x = x;
         // TODO : Faire méthode pour choisir le mode aléatoire
         this.isAlive = Math.random() > 0.5;
     }
@@ -35,34 +35,50 @@ class Grid {
     init() {
         for (let y = 0; y < this.rows; y++) {
             for (let x = 0; x < this.columns; x++) {
-                this.cells[y][x] = (new Cell(this.ctx, x, y));
+                this.cells[y][x] = (new Cell(this.ctx, y, x));
             }
         }
     }
 
-    neighbors(cellX, cellY) {
+    neighbors(cellY, cellX) {
         let neighbours = [];
 
+        const isInside = (value) => {
+            if (value >= 0 && value < this.rows || value >= 0 && value < this.columns)
+                return true;
+        };
+
+        const neighbor = (firstIndex, secondIndex) => {
+            if (!isInside(firstIndex) || !isInside(secondIndex))
+                return;
+            neighbours.push(this.cells[firstIndex][secondIndex]);
+        }
+
         // Top
-        neighbours.push(this.cells[cellY - 1][cellX - 1]); // Left
-        neighbours.push(this.cells[cellY - 1][cellX]); // Middlee
-        neighbours.push(this.cells[cellY - 1][cellX + 1]); // Right
+        neighbor(cellY - 1, cellX - 1);// Left
+        neighbor(cellY - 1, cellX);// Middlee
+        neighbor(cellY - 1, cellX + 1);// Right
         // Middle
-        neighbours.push(this.cells[cellY][cellX - 1]); // Left
-        neighbours.push(this.cells[cellY][cellX + 1]); // Right
+        neighbor(cellY, cellX - 1);// Left
+        neighbor(cellY, cellX + 1);// Right
         // Bottom
-        neighbours.push(this.cells[cellY + 1][cellX - 1]); // Left
-        neighbours.push(this.cells[cellY + 1][cellX]); // Middlee
-        neighbours.push(this.cells[cellY + 1][cellX + 1]); // Right
+        neighbor(cellY + 1, cellX - 1);// Left
+        neighbor(cellY + 1, cellX);// Middlee
+        neighbor(cellY + 1, cellX + 1);// Right
 
         return neighbours;
     }
 
     draw() {
-        this.cells.map((row) => row.forEach(cell => cell.draw()));
+        this.cells.map(row => row.forEach(cell => cell.draw()));
+    }
+
+    play() {
+        console.log(this.neighbors(0, 0));
     }
 }
 
 let canvas = document.getElementById('canvas');
 let grid = new Grid(canvas, 500, 500);
 grid.draw();
+grid.play();
