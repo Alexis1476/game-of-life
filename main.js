@@ -10,6 +10,20 @@ class Cell {
         this.isAlive = Math.random() > 0.5;
     }
 
+    stillAlive(neighborsAlive) {
+        if (this.isAlive) {
+            // Mort par sous-population |  Mort par sur-population
+            if (neighborsAlive <= 1 || neighborsAlive >= 4) {
+                this.isAlive = false;
+            }
+        } else {
+            // Naissance par réproduction
+            if (neighborsAlive === 3) {
+                this.isAlive = true;
+            }
+        }
+    }
+
     draw() {
         this.ctx.fillStyle = this.isAlive ? '#000' : '#FFF';
         this.ctx.fillRect(this.x * Cell.width, this.y * Cell.height, Cell.width, Cell.height);
@@ -41,7 +55,7 @@ class Grid {
     }
 
     neighbors(cellY, cellX) {
-        let neighbours = [];
+        let neighborsAlive = 0;
 
         const isInside = (value) => {
             if (value >= 0 && value < this.rows || value >= 0 && value < this.columns)
@@ -51,7 +65,9 @@ class Grid {
         const neighbor = (firstIndex, secondIndex) => {
             if (!isInside(firstIndex) || !isInside(secondIndex))
                 return;
-            neighbours.push(this.cells[firstIndex][secondIndex]);
+
+            if (this.cells[firstIndex][secondIndex].isAlive)
+                neighborsAlive++;
         }
 
         // Top
@@ -66,7 +82,7 @@ class Grid {
         neighbor(cellY + 1, cellX);// Middlee
         neighbor(cellY + 1, cellX + 1);// Right
 
-        return neighbours;
+        return neighborsAlive;
     }
 
     draw() {
@@ -74,11 +90,13 @@ class Grid {
     }
 
     play() {
-        console.log(this.neighbors(0, 0));
+        this.cells.map(row => row.forEach(cell => {
+            cell.stillAlive(this.neighbors(cell.y, cell.x));
+        }));
+        this.draw();
     }
 }
 
 let canvas = document.getElementById('canvas');
 let grid = new Grid(canvas, 500, 500);
 grid.draw();
-grid.play();
