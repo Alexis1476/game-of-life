@@ -90,8 +90,8 @@ class Grid {
     }
 
     play() {
-        let nextGen = this.cells.slice();
-        console.log(nextGen[0][0] === this.cells[0][0]); // The same cells
+        let nextGen = this.cells.map((row) => row.map((cell) => Object.assign(new Cell(), cell)));
+
         for (let i = 0; i < this.rows; i++) {
             for (let j = 0; j < this.columns; j++) {
                 nextGen[i][j].stillAlive(this.neighbors(this.cells[i][j]));
@@ -103,12 +103,10 @@ class Grid {
 }
 
 let canvas = document.getElementById('canvas');
-let grid = new Grid(canvas, 100, 100);
-grid.draw();
-grid.play();
+let grid = new Grid(canvas, 500, 500);
 
 function play() {
     grid.play();
 }
 
-//setInterval(play, 200)
+setInterval(play, 300)
